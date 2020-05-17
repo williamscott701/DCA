@@ -1029,7 +1029,7 @@ class EDRanker:
                         not_better_count = 0
                         best_f1 = dev_f1
                         print('save model to', self.args.model_path)
-                        self.model.save(self.args.model_path)
+                        #self.model.save(self.args.model_path)
 
                 if not_better_count == self.args.n_not_inc:
                     break

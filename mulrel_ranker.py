@@ -308,12 +308,15 @@ class MulRelRanker(LocalCtxAttRanker):
             if isTrain:
                 if method == "SL":
                     # print("gold[indx]: ", gold[indx])
-                    # print("gold.data[indx][0]: ", gold.data[indx][0])
-
-                    cumulative_entity_ids = torch.cat([cumulative_entity_ids, entity_ids[indx][gold.data[indx][0]]], dim=0)
+                    # print("gold.data[indx][0]: ", gold.data[indx
+                    #print("cumulative_entity_ids >>>> ",cumulative_entity_ids)
+                    #print("entity_ids[indx] >>>>>>>> ",entity_ids[indx])
+                    #print("indx >>>>>> ",indx)
+                    #print("gold.data[indx] >>>>>>> ",gold.data[indx])
+                    cumulative_entity_ids = torch.cat([cumulative_entity_ids, entity_ids[indx][gold.data[indx][0]].view(1)], dim=0)
                     cumulative_entity_ids = Variable(self.unique(cumulative_entity_ids.cpu().data.numpy()).cuda())
 
-                    if (entity_ids[indx][gold.data[indx][0]]).data[0] in self.ent_inlinks:
+                    if (entity_ids[indx][gold.data[indx]]).data[0] in self.ent_inlinks:
 
                         external_inlinks = np.asarray(self.ent_inlinks[(entity_ids[indx][gold.data[indx][0]]).data[0]][:self.tok_top_n4inlink])
 
@@ -374,10 +377,10 @@ class MulRelRanker(LocalCtxAttRanker):
                 # print("gold[action]: ", gold[action])
                 # print("gold.data[action][0]: ", gold.data[action][0])
                 if isDynamic == 0 or isDynamic == 1:
-                    cumulative_entity_ids = torch.cat([cumulative_entity_ids, entity_ids[indx][action.data[0]]], dim=0)
+                    cumulative_entity_ids = torch.cat([cumulative_entity_ids, entity_ids[indx][action.data[0]].view(1)], dim=0)
                     cumulative_entity_ids = Variable(self.unique(cumulative_entity_ids.cpu().data.numpy()).cuda())
 
-                if isDynamic == 0 and (entity_ids[indx][action.data[0]]).data[0] in self.ent_inlinks:
+                if isDynamic == 0 and (entity_ids[indx][action.data]).data[0] in self.ent_inlinks:
 
                     # external_inlinks = Variable(torch.LongTensor(self.ent_inlinks[(entity_ids[indx][action.data[0]]).data[0]][:self.tok_top_n4inlink]).cuda())
                     #
